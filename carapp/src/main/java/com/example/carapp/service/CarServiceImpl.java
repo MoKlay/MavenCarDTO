@@ -7,13 +7,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.example.carapp.dto.CarDTO;
 import com.example.carapp.dto.CarModelDTO;
+import com.example.carapp.emtity.CarState;
+import com.example.carapp.util.RandomDataGenerator;
 
 public class CarServiceImpl implements CarService {
+  private final RandomDataGenerator randomDataGenerator;
   private List<CarModelDTO> cars;
 
   public CarServiceImpl(List<CarModelDTO> cars) {
     this.cars = cars;
+    this.randomDataGenerator = new RandomDataGenerator();
   }
 
   public void setCars(List<CarModelDTO> cars) {
@@ -51,5 +56,30 @@ public class CarServiceImpl implements CarService {
       }
     }
     return countByBrand;
+  }
+
+  @Override
+  public List<CarDTO> createRandomCars(int numberOfCars) {
+    List<CarDTO> randomCars = new ArrayList<>();
+    for (int i = 0; i < numberOfCars; i++) {
+      CarModelDTO carModel = randomDataGenerator.getRandomElement(cars);
+      String color = randomDataGenerator.getRandomColor();
+      int price = randomDataGenerator.getRandomPrice();
+      String configuration = randomDataGenerator.getRandomConfiguration();
+      CarState state = randomDataGenerator.getRandomState();
+
+      CarDTO carDTO = new CarDTO(String.valueOf(i + 1), carModel, color, price, configuration, state);
+      randomCars.add(carDTO);
+    }
+    return randomCars;
+  }
+
+  @Override
+  public void timeCheckCreateRandomCars(int numberOfCars) {
+    long startTime = System.nanoTime();
+    createRandomCars(numberOfCars);
+    long endTime = System.nanoTime();
+    long duration = (endTime - startTime);
+    System.out.println("Execution time for creating " + numberOfCars + " random cars: " + duration + " nano seconds");
   }
 }

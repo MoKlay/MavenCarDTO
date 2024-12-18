@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.carapp.dto.CarDTO;
 import com.example.carapp.dto.CarModelDTO;
 
 public interface CarService {
@@ -12,4 +13,8 @@ public interface CarService {
   List<CarModelDTO> getModelsByBrand(String brand);
 
   Map<String, Integer> getCarsCountByBrand();
+
+  List<CarDTO> createRandomCars(int numberOfCars);
+
+  void timeCheckCreateRandomCars(int numberOfCars);
 }
